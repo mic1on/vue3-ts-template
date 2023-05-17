@@ -1,12 +1,14 @@
 <script setup lang="ts">
-const count = ref(0)
+import { useCounterStore } from '@/stores/counter'
+
+const counter = useCounterStore()
 </script>
 
 <template>
-  <main class="bg-gray-300">
-    <el-button @click="count++">
+  <main class="bg-gray-100">
+    <el-button @click="counter.increment">
       count++
     </el-button>
-    {{ count }}
+    <span class="text-red-300">{{ counter.count }}</span>
   </main>
 </template>
