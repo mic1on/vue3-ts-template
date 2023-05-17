@@ -20,6 +20,9 @@ export default defineConfig({
       ],
       dts: true,
       vueTemplate: true,
+      eslintrc: {
+        enabled: true,
+      },
     }),
     Components({
       resolvers: [ElementPlusResolver()],

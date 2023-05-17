@@ -2,5 +2,8 @@
 require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
-  extends: '@antfu',
+  extends: [
+    '@antfu',
+    './.eslintrc-auto-import.json',
+  ],
 }
