@@ -1,38 +1,30 @@
 import { URL, fileURLToPath } from 'node:url'
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import UnoCSS from 'unocss/vite'
+import { defineConfig, loadEnv } from 'vite'
+import createVitePlugins from './vite/plugins'
+
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    UnoCSS(),
-    AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core'],
-      resolvers: [
-        ElementPlusResolver(),
-      ],
-      dirs: [
-        './composables/**',
-      ],
-      dts: true,
-      vueTemplate: true,
-      eslintrc: {
-        enabled: true,
-      },
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  return {
+    build: {
+      outDir: mode == 'production' ? 'dist' : `dist-${mode}`,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: env.VITE_BUILD_DROP_CONSOLE == 'true'
+        }
+      }
     },
-  },
+    plugins: [
+      ...createVitePlugins(env)
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '#': fileURLToPath(new URL('./src/types', import.meta.url)),
+      },
+    },
+  }
 })

@@ -1,4 +1,5 @@
 {
+  "indent": 0,
   "extends": [
     "@antfu",
     "./.eslintrc-auto-import.json"

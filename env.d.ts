@@ -1,8 +1,6 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_APP_API_BASEURL: string
-}
+import ImportMetaEnv from '@/types/env.d.ts'
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
